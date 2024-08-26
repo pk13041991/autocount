@@ -1,0 +1,400 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Header Styles */
+header {
+    background: #333;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+header nav ul li {
+    padding: 1em;
+}
+
+header nav ul li a {
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Hero Section Styles */
+#hero {
+    position: relative;
+    background: #333;
+    height: 90vh; /* Adjusted height */
+    overflow: hidden;
+}
+
+.slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.mySlides {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.mySlides img {
+    width: 100%;
+    height: auto; /* Ensure images maintain aspect ratio */
+    object-fit: cover;
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 2;
+    padding: 0 1em;
+}
+
+.hero-text h1 {
+    font-size: 2.5em; /* Adjusted font size */
+    margin-bottom: 0.5em;
+}
+
+.hero-text p {
+    font-size: 1.25em; /* Adjusted font size */
+}
+
+/* Slideshow Animation */
+@keyframes fade {
+    from { opacity: 0.4 }
+    to { opacity: 1 }
+}
+
+.fade {
+    animation: fade 2s ease-in-out infinite;
+}
+
+
+/* Summary Section Styles */
+.summary {
+    padding: 2em 1em;
+    text-align: center;
+    background: #f9f9f9;
+}
+
+.summary h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.summary p {
+    font-size: 1em;
+    color: #333;
+}
+
+/* Events Section Styles */
+.events {
+    padding: 2em 1em;
+    background: #fff;
+	background-color: skyblue;
+}
+
+.events h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.event-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
+
+.event-cards .card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    min-width: 250px;
+}
+
+/* Available Courses Section Styles */
+.courses {
+    padding: 2em 1em;
+    background: #f9f9f9;
+}
+
+.courses h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.course-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
+
+.course-options .course {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    min-width: 250px;
+}
+
+.course-options .course h3 {
+    margin-top: 0;
+}
+
+.course-options .course a {
+    display: block;
+    margin-top: 1em;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Footer Styles */
+footer {
+    background: #333;
+    color: white;
+    padding: 2em 1em;
+    text-align: center;
+}
+
+footer .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-bottom: 1em;
+}
+
+footer .footer-content > div {
+    margin: 1em 0;
+    width: 45%;
+    min-width: 200px;
+}
+
+footer .footer-content h3 {
+    margin-bottom: 0.5em;
+}
+
+footer address {
+    font-style: normal;
+}
+
+/* Social Login Buttons */
+.social-login {
+    margin-top: 1em;
+}
+
+.social-button {
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 0.5em;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.social-button.facebook {
+    background-color: #3b5998;
+}
+
+.social-button.google {
+    background-color: #db4437;
+}
+
+.social-button.twitter {
+    background-color: #1da1f2;
+}
+
+.social-button:hover {
+    opacity: 0.8;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    header nav ul {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    header nav ul li {
+        text-align: center;
+        padding: 0.5em;
+    }
+
+    #hero {
+        height: 50vh; /* Adjusted height */
+    }
+
+    .hero-text h1 {
+        font-size: 2em;
+    }
+
+    .hero-text p {
+        font-size: 1em;
+    }
+
+    .event-cards .card,
+    .course-options .course {
+        width: 45%;
+    }
+
+    footer .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer .footer-content > div {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    header nav ul li {
+        text-align: center;
+        padding: 0.5em;
+    }
+
+    #hero {
+        height: 40vh; /* Adjusted height */
+    }
+
+    .hero-text h1 {
+        font-size: 1.5em;
+    }
+
+    .hero-text p {
+        font-size: 0.9em;
+    }
+
+    .event-cards .card,
+    .course-options .course {
+        width: 80%;
+    }
+
+    footer .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer .footer-content > div {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    header nav ul {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    header nav ul li {
+        text-align: center;
+        padding: 0.5em;
+    }
+
+    #hero {
+        height: 30vh; /* Adjusted height */
+    }
+
+    .hero-text h1 {
+        font-size: 1.2em;
+    }
+
+    .hero-text p {
+        font-size: 0.8em;
+    }
+
+    .event-cards .card,
+    .course-options .course {
+        width: 100%;
+    }
+
+    footer .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer .footer-content > div {
+        width: 100%;
+    }
+}

@@ -1,0 +1,41 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Education Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div include-html="includes/header.html"></div>
+
+    <!-- Courses Section -->
+    <section id="courses">
+        <h2>Courses</h2>
+        <div class="course-options">
+            <!-- 9 different selection options -->
+            <ul>
+                <li>Course 1</li>
+                <li>Course 2</li>
+                <li>Course 3</li>
+                <li>Course 4</li>
+                <li>Course 5</li>
+                <li>Course 6</li>
+                <li>Course 7</li>
+                <li>Course 8</li>
+                <li>Course 9</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Include Footer -->
+    <div include-html="includes/footer.html"></div>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/includes.js"></script>
+</body>
+</html>
+{% endblock %}

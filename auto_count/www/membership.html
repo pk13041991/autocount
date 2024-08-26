@@ -1,0 +1,203 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership - Education Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Include Header -->
+    <div include-html="includes/header.html"></div>
+
+    <!-- Membership Section -->
+    <section id="membership">
+        <h2>Membership</h2>
+        <p>Explore our membership options and choose the one that best fits your learning journey.</p>
+
+        <div class="membership-options">
+            <!-- Gold Membership -->
+            <div class="membership" id="gold-membership">
+                <h3>Gold Membership</h3>
+                <p>Access to a range of exclusive courses and resources. Ideal for those seeking comprehensive learning.</p>
+                <div class="membership-duration">
+                    <h4>Available Durations:</h4>
+                    <ul>
+                        <li id="gold-1-month"><span>Details Updating Soon</span></li>
+                        <li id="gold-1-year"><span>Details Updating Soon</span></li>
+                        <li id="gold-1-week"><span>Details Updating Soon</span></li>
+                    </ul>
+                </div>
+                <button onclick="subscribe('gold')">Subscribe</button>
+            </div>
+
+            <!-- Platinum Membership -->
+            <div class="membership" id="platinum-membership">
+                <h3>Platinum Membership</h3>
+                <p>Premium access with additional features and benefits. Perfect for dedicated learners.</p>
+                <div class="membership-duration">
+                    <h4>Available Durations:</h4>
+                    <ul>
+                        <li id="platinum-1-month"><span>Details Updating Soon</span></li>
+                        <li id="platinum-1-year"><span>Details Updating Soon</span></li>
+                        <li id="platinum-1-week"><span>Details Updating Soon</span></li>
+                    </ul>
+                </div>
+                <button onclick="subscribe('platinum')">Subscribe</button>
+            </div>
+
+            <!-- Diamond Membership -->
+            <div class="membership" id="diamond-membership">
+                <h3>Diamond Membership</h3>
+                <p>All-inclusive membership with full access to all resources and priority support.</p>
+                <div class="membership-duration">
+                    <h4>Available Durations:</h4>
+                    <ul>
+                        <li id="diamond-1-month"><span>Details Updating Soon</span></li>
+                        <li id="diamond-1-year"><span>Details Updating Soon</span></li>
+                        <li id="diamond-1-week"><span>Details Updating Soon</span></li>
+                    </ul>
+                </div>
+                <button onclick="subscribe('diamond')">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Include Footer -->
+    <div include-html="includes/footer.html"></div>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/includes.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchMembershipPlans();
+            checkUserMemberships();
+        });
+
+        function fetchMembershipPlans() {
+            searchText = "";
+            fetch('/api/method/lms.lms.utils.get_membership_plan?text=`${searchText}`')
+                .then(response => response.json())
+                .then(data => {
+                    const memberships = data.message;
+                    updateMembershipDurations(memberships);
+                });
+        }
+
+        function checkUserMemberships() {
+            // Fetch the user's membership status
+            fetch('/api/method/lms.lms.utils.get_user_membership')
+                .then(response => response.json())
+                .then(data => {
+                    const userMemberships = data.message.message;
+
+
+                    if (userMemberships && userMemberships.length > 0) {
+                        // User has active memberships, update UI accordingly
+                        updateMembershipUI(userMemberships);
+                    } else {
+                        // No active memberships, allow selecting new ones
+                        enableMembershipSelection();
+                    }
+                });
+        }
+
+        function updateMembershipDurations(memberships) {
+            memberships.forEach(plan => {
+                const durationInSeconds = plan.duration;
+                let durationText = "";
+                
+                if (durationInSeconds === 2592000) {  // 30 days in seconds
+                    durationText = "1 Month";
+                } else if (durationInSeconds === 31536000) {  // 365 days in seconds
+                    durationText = "1 Year";
+                } else if (durationInSeconds === 604800) {  // 7 days in seconds
+                    durationText = "1 Week";
+                } else {
+                    return;
+                }
+
+                const costText = `${parseFloat(plan.cost).toFixed(2)}` + " - " + plan.currency;
+                let checkboxHTML = "";
+
+                membershipType = plan.plan_name;
+                durationdd = `${durationText}`;
+                if (durationdd.includes("1 Week")) {
+                    checkboxHTML = `
+                        <label>
+                            <input type="checkbox" data-cost="${costText}" name="${membershipType}" value="${durationText}">
+                            ${durationText} - ${costText} (Free Trial Period)
+                        </label>
+                    `;
+                } else {
+                    checkboxHTML = `
+                        <label>
+                            <input type="checkbox" data-cost="${costText}" name="${membershipType}" value="${durationText}">
+                            ${durationText} - ${costText}
+                        </label>
+                    `;
+                }
+
+                const typeElement = document.getElementById(`${plan.plan_name.toLowerCase()}-${durationText.replace(" ", "-").toLowerCase()}`);
+                if (typeElement) {
+                    typeElement.innerHTML = checkboxHTML;
+                }
+            });
+        }
+
+        function updateMembershipUI(userMemberships) {
+            // Disable membership options
+            console.log(userMemberships)
+            const membershipSections = document.querySelectorAll('.membership');
+            membershipSections.forEach(section => section.style.display = 'none');
+
+            // Show only the user's active memberships
+            userMemberships.forEach(membership => {
+                const membershipSection = document.getElementById(`${membership.plan_name.toLowerCase()}-membership`);
+                if (membershipSection) {
+                    membershipSection.style.display = 'block';
+
+                    // Update duration and status information
+                    const durationElement = membershipSection.querySelector('.membership-duration ul');
+                    durationElement.innerHTML = `
+                        <li>End Date ${membership.end_date} - ${membership.cost} (${membership.status})</li>
+                    `;
+
+                    // Hide the subscribe button if the membership is active
+                    if (membership.status === 'Active') {
+                        const subscribeButton = membershipSection.querySelector('button');
+                        subscribeButton.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function enableMembershipSelection() {
+            // Enable the selection of memberships
+            const membershipSections = document.querySelectorAll('.membership');
+            membershipSections.forEach(section => section.style.display = 'block');
+        }
+
+        function subscribe(plan) {
+            const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (selectedCheckboxes.length === 0) {
+                alert("Please select a membership option.");
+                return;
+            }
+
+            selectedCheckboxes.forEach(checkbox => {
+                const membershipType = checkbox.name;
+                const duration = checkbox.value;
+                const cost = checkbox.getAttribute('data-cost');
+
+                // Redirect to subscription confirmation page
+                window.location.href = `/subscription-confirmation.html?membership=${membershipType}&duration=${duration}&cost=${cost}`;
+            });
+        }
+
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,131 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-13 07:03:24.272945",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_sii2",
+  "event_name",
+  "venue",
+  "description",
+  "event_type",
+  "organizer",
+  "maximum_attendants",
+  "column_break_valv",
+  "event_date",
+  "start_time",
+  "end_time",
+  "registration_dead_line",
+  "section_break_bkwo",
+  "banner_image",
+  "section_break_oboa",
+  "registration_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_sii2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "event_name",
+   "fieldtype": "Data",
+   "label": "Event Name"
+  },
+  {
+   "fieldname": "venue",
+   "fieldtype": "Data",
+   "label": "Venue"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fieldname": "event_type",
+   "fieldtype": "Select",
+   "label": "Event Type"
+  },
+  {
+   "fieldname": "organizer",
+   "fieldtype": "Data",
+   "label": "Organizer"
+  },
+  {
+   "fieldname": "maximum_attendants",
+   "fieldtype": "Data",
+   "label": "Maximum Attendants"
+  },
+  {
+   "fieldname": "column_break_valv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "event_date",
+   "fieldtype": "Date",
+   "label": "Event Date"
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Time",
+   "label": "Start Time"
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Time",
+   "label": "End Time"
+  },
+  {
+   "fieldname": "registration_dead_line",
+   "fieldtype": "Datetime",
+   "label": "Registration Dead Line"
+  },
+  {
+   "fieldname": "section_break_bkwo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "banner_image",
+   "fieldtype": "Attach Image",
+   "label": "Banner Image"
+  },
+  {
+   "fieldname": "section_break_oboa",
+   "fieldtype": "Section Break",
+   "label": "Register"
+  },
+  {
+   "fieldname": "registration_details",
+   "fieldtype": "Table",
+   "label": "Registration Details",
+   "options": "Registration"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-13 07:25:27.031639",
+ "modified_by": "Administrator",
+ "module": "Auto Count",
+ "name": "Event Management",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

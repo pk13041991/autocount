@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-13 07:35:21.878929",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_kxn3",
+  "course_name",
+  "column_break_iaxu",
+  "course_code",
+  "section_break_vacg",
+  "description",
+  "section_break_djjv",
+  "start_date",
+  "column_break_rjuq",
+  "end_date",
+  "section_break_wzgr",
+  "instructor",
+  "duration",
+  "maximum_participants",
+  "column_break_qzms",
+  "venue",
+  "course_type",
+  "course_image",
+  "course_fee",
+  "section_break_vmea",
+  "enrollment",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_kxn3",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "label": "Course Name"
+  },
+  {
+   "fieldname": "column_break_iaxu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "label": "Course Code"
+  },
+  {
+   "fieldname": "section_break_vacg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_break_djjv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "column_break_rjuq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "section_break_wzgr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Data",
+   "label": "Instructor"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "column_break_qzms",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "venue",
+   "fieldtype": "Data",
+   "label": "Venue"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Course Type",
+   "options": "Online\nOffline\nHybrid",
+   "reqd": 1
+  },
+  {
+   "fieldname": "maximum_participants",
+   "fieldtype": "Int",
+   "label": "Maximum Participants"
+  },
+  {
+   "fieldname": "course_image",
+   "fieldtype": "Attach Image",
+   "label": "Course Image"
+  },
+  {
+   "fieldname": "course_fee",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Course Fee",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_vmea",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "enrollment",
+   "fieldtype": "Table",
+   "label": "Enrollment",
+   "options": "Enrollment"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Course",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-13 07:46:30.124418",
+ "modified_by": "Administrator",
+ "module": "Auto Count",
+ "name": "Course",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

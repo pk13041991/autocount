@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-19 05:08:43.555800",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "excel_file",
+  "column_break_xfnm",
+  "upload"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_xfnm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "upload",
+   "fieldtype": "Button",
+   "label": "Upload"
+  },
+  {
+   "description": "** Accepts only .xls and .xlsx formats",
+   "fieldname": "excel_file",
+   "fieldtype": "Attach",
+   "label": "Attach System File"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-19 05:31:31.713502",
+ "modified_by": "Administrator",
+ "module": "Auto Count",
+ "name": "Auto System Count",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

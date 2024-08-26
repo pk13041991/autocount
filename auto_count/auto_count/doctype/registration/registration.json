@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-13 07:13:27.393984",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "attendee_name",
+  "section_break_rvls",
+  "attendee_email",
+  "column_break_csyq",
+  "attendeemobile",
+  "registration_details_section",
+  "registraton_date",
+  "column_break_jmok",
+  "registered_for",
+  "additional_details_section",
+  "attendance_status",
+  "column_break_hcmg",
+  "comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "attendee_name",
+   "fieldtype": "Data",
+   "label": "Attendee Name"
+  },
+  {
+   "fieldname": "section_break_rvls",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attendee_email",
+   "fieldtype": "Data",
+   "label": "Attendee Email"
+  },
+  {
+   "fieldname": "column_break_csyq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attendeemobile",
+   "fieldtype": "Phone",
+   "label": "AttendeeMobile"
+  },
+  {
+   "fieldname": "registration_details_section",
+   "fieldtype": "Section Break",
+   "label": "Registration Details"
+  },
+  {
+   "fieldname": "registraton_date",
+   "fieldtype": "Datetime",
+   "label": "Registraton Date"
+  },
+  {
+   "fieldname": "column_break_jmok",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "registered_for",
+   "fieldtype": "Int",
+   "label": "Registered For"
+  },
+  {
+   "fieldname": "additional_details_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Details"
+  },
+  {
+   "fieldname": "attendance_status",
+   "fieldtype": "Select",
+   "label": "Attendance Status"
+  },
+  {
+   "fieldname": "column_break_hcmg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Small Text",
+   "label": "Comments"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-13 07:19:47.224417",
+ "modified_by": "Administrator",
+ "module": "Auto Count",
+ "name": "Registration",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

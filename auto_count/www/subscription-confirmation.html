@@ -1,0 +1,125 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Confirmation - Education Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Subscription Confirmation</h1>
+        <div class="summary">
+            <p><strong>Membership Type:</strong> <span id="membership-type">Gold</span></p>
+            <p><strong>Selected Duration:</strong> <span id="membership-duration">1 Month</span></p>
+            <p><strong>Total Cost:</strong> <span id="membership-cost">$300</span></p>
+        </div>
+
+        <h2>Enter Your Payment Details</h2>
+        <form class="payment-form" id="payment-form">
+            <label for="full-name">Full Name:</label>
+            <input type="text" id="full-name" name="full-name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            
+
+            <input type="submit" value="Complete Payment">
+        </form>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const membershipType = urlParams.get('membership');
+        const duration = urlParams.get('duration');
+        const cost = urlParams.get('cost');
+
+        // Update page content based on URL parameters
+        document.getElementById('membership-type').textContent = membershipType.charAt(0).toUpperCase() + membershipType.slice(1);
+        document.getElementById('membership-duration').textContent = duration.replace('-', ' ').replace('week', 'Week (Free Trial)');
+        document.getElementById('membership-cost').textContent = cost;
+
+        // Fetch user details from frappe session storage
+        const userDetails = JSON.parse(localStorage.getItem('frappe.session')) || {};
+        console.log(frappe)
+
+        // Auto-fill form fields
+        if (userDetails) {
+            document.getElementById('full-name').value = userDetails.user || '';
+            document.getElementById('email').value = userDetails.email || '';
+        }
+        function populateUserDetails() {
+            // Attempt to fetch user details using frappe.call
+            frappe.call({
+                method: 'frappe.core.page.user_profile.user_profile.get_user',
+                args: {},
+                callback: function(response) {
+                    const user = response.message;
+                    if (user) {
+                        const { full_name, email } = user;
+
+                        // Fill in the form fields
+                        document.getElementById('full-name').value = full_name || '';
+                        document.getElementById('email').value = email || '';
+                    }
+                }
+            });
+        }
+
+        // Handle form submission
+        document.getElementById('payment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            console.log(frappe.csrf_token.length);
+            if (frappe.csrf_token.length>4){
+                const email = document.getElementById('email').value;
+                const fullName = document.getElementById('full-name').value;
+                console.log(membershipType)
+                membership_plan = membershipType+" "+duration
+
+                // Check if user exists and create if not
+                fetch('/api/method/lms.lms.utils.check_or_create_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Frappe-CSRF-Token': frappe.csrf_token
+                    },
+                    body: JSON.stringify({ email, full_name: fullName, membership_plan:membership_plan, payment_status:"Pending" })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'User created' || data.message === 'User exists') {
+                        alert('User details saved or updated successfully. Payment processing...');
+                        // Implement your payment processing logic here
+                    } else {
+
+                        alert('Error: ' + data.message.message);
+                        window.location.href = `/lms/course`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }else{
+                alert("Session was not active first login");
+                window.location.href = `/login`
+            }
+            });
+        function getCsrfToken() {
+            const name = 'csrf_token=';
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i];
+                while (cookie.charAt(0) === ' ') cookie = cookie.substring(1);
+                if (cookie.indexOf(name) === 0) return cookie.substring(name.length, cookie.length);
+            }
+            return '';
+        }
+    </script>
+</body>
+</html>
+{% endblock %}

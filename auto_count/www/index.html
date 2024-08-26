@@ -1,0 +1,155 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Education Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    
+    <!-- Include Header -->
+    <div include-html="includes/header.html"></div>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <img src="https://tsttax.com/pluginfile.php/1/theme_enlightlite/slide1image/1718199896/learner-lesson_1.jpg?1722896428276" style="width:100%; height: auto;">
+                </div>
+                <div class="mySlides fade">
+                    <img src="https://tsttax.com/pluginfile.php/1/theme_enlightlite/slide2image/1718199896/lms_slider1.jpg?1722896428747" style="width:100%; height: auto;">
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            <div class="hero-text">
+                <h1>Welcome to Our Education Platform</h1>
+                <p>Your journey to knowledge starts here.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="summary">
+        <h2>About Us</h2>
+        <p>Welcome to our education platform where you can access a range of courses and training events. Our platform offers a seamless learning experience with easy access to educational resources and tools. Explore our membership options, register for courses, and stay updated with our latest events.</p>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events">
+        <h2>Upcoming Events</h2>
+
+        <div class="event-cards">
+            <div class="card">
+                <h3>Soon We are Coming</h3>
+                <p>Date: January 15, 2025</p>
+            </div>
+            <!-- <div class="card">
+                <h3>Event Title 2</h3>
+                <p>Date: February 20, 2025</p>
+                <p>Location: Conference Center</p>
+                <p>Details about the event...</p>
+            </div> -->
+            <!-- Add more event cards as needed -->
+        </div>
+    </section>
+
+    <!-- Available Courses Section -->
+    <section class="courses">
+        <h2>Available Courses</h2>
+        <div class="course-options">
+            <!-- Course options will be dynamically injected here -->
+        </div>
+    </section>
+
+    <!-- Registration Modal -->
+    <div id="registration-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="modal-registration-form">
+                <label for="modal-name">Name:</label>
+                <input type="text" id="modal-name" name="name" required>
+                <label for="modal-email">Email:</label>
+                <input type="email" id="modal-email" name="email" required>
+                <label for="modal-password">Password:</label>
+                <input type="password" id="modal-password" name="password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="modal-login-form">
+                <label for="modal-email">Email:</label>
+                <input type="email" id="modal-email" name="email" required>
+                <label for="modal-password">Password:</label>
+                <input type="password" id="modal-password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    <div include-html="includes/footer.html"></div>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/includes.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchCourses("");
+
+            // Function to fetch courses
+            function fetchCourses(searchText) {
+                fetch(`/api/method/lms.lms.utils.get_courses?text=${searchText}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        updateCourseSection(data.message.new);
+                    })
+                    .catch(error => console.error('Error fetching courses:', error));
+            }
+
+            // Function to update the course section
+            function updateCourseSection(courses) {
+                const courseSection = document.querySelector(".course-options");
+                courseSection.innerHTML = ""; // Clear existing courses
+                
+                courses.slice(0, 6).forEach(course => {
+                    const courseDiv = document.createElement("div");
+                    courseDiv.classList.add("course");
+                    courseDiv.innerHTML = `
+                        <h3>${course.title}</h3>
+                        <p>${course.description || "No description available."}</p>
+                        <a href="/course/${course.name}">Learn More</a>
+                    `;
+                    courseSection.appendChild(courseDiv);
+                });
+
+                // Add "More Options" link if there are more than 6 courses
+                if (courses.length > 6) {
+                    const moreOptionsDiv = document.createElement("div");
+                    moreOptionsDiv.classList.add("course");
+                    moreOptionsDiv.innerHTML = `
+                        <a href="/all-courses?search=${searchText}">More Options</a>
+                    `;
+                    courseSection.appendChild(moreOptionsDiv);
+                }
+            }
+
+            // Example usage: Trigger fetch on a search input (optional)
+            document.getElementById('search-input').addEventListener('input', function() {
+                const searchText = this.value;
+                fetchCourses(searchText);
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}
