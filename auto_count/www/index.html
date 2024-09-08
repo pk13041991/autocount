@@ -93,6 +93,12 @@
     <script src="js/scripts.js"></script>
     <script src="js/includes.js"></script>
     <script>
+        // Function to handle event registration
+        function registerForEvent(eventId) {
+            // Handle event registration logic here
+            alert(`Registering for event ${eventId}`);
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
         // Fetch courses and events when the document is loaded
         fetchCourses("");
@@ -129,7 +135,7 @@
                 displayEvents([]);
             }
         }
-
+        
         // Function to create an event card
         function createEventCard(event) {
             return `
@@ -137,8 +143,8 @@
                     <h3>${event.event_name}</h3>
                     <p>Date: ${new Date(event.event_date).toLocaleDateString()}</p>
                     <p>Location: ${event.venue || 'Not specified'}</p>
-                    <p>${event.description || 'No details available'}</p>
-                    <button onclick="registerForEvent('${event.name}')">Register</button>
+                    <p>Mode: ${event.event_type || 'No details available'}</p>
+                    <button onclick="registerForEvent('${event.event_name}')">Register</button>
                 </div>
             `;
         }
@@ -158,11 +164,7 @@
             }
         }
 
-        // Function to handle event registration
-        function registerForEvent(eventId) {
-            // Handle event registration logic here
-            alert(`Registering for event ${eventId}`);
-        }
+        
 
         // Function to update the course section
         function updateCourseSection(courses) {

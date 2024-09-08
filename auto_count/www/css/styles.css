@@ -367,48 +367,6 @@ h1 {
     font-style: italic;
 } */
 
-/* Events and Training Lists */
-/* Ensure list items are displayed as flex containers */
-#events-list.li {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-}
-
-/* Style for details to appear in a single line */
-#events-list.li .details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Adjust spacing as needed */
-}
-
-#events-list.li .details p {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-}
-
-/* Ensure button is displayed as a block element */
-#events-list.li button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-#events-list.li button:hover {
-    background-color: #0056b3;
-}
 
 
 /* Footer Styles */

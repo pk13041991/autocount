@@ -40,7 +40,7 @@
   },
   {
    "fieldname": "description",
-   "fieldtype": "Long Text",
+   "fieldtype": "Text Editor",
    "label": "Description"
   },
   {
@@ -117,7 +117,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-04 07:59:52.931473",
+ "modified": "2024-09-04 21:01:54.580325",
  "modified_by": "Administrator",
  "module": "Auto Count",
  "name": "Event Management",

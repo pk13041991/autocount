@@ -1,0 +1,237 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container textarea,
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input[readonly],
+        .form-container select[readonly],
+        .form-container textarea[readonly] {
+            background-color: #e9ecef;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form id="registration-form">
+        <div class="form-container">
+            <h2>Event Registration</h2>
+            
+
+            <label for="event_name">Event Name:</label>
+            <input type="text" id="event_name" name="event_name" readonly><br>
+
+            <label for="venue">Venue:</label>
+            <input type="text" id="venue" name="venue" readonly><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" readonly></textarea><br>
+
+            <label for="event_type">Event Type:</label>
+            <input type="text" id="event_type" name="event_type" readonly><br>
+
+            <label for="organizer">Organizer:</label>
+            <input type="text" id="organizer" name="organizer" readonly><br>
+
+            <label for="maximum_attendants">Maximum Attendants:</label>
+            <input type="text" id="maximum_attendants" name="maximum_attendants" readonly><br>
+
+            <label for="event_date">Event Date:</label>
+            <input type="date" id="event_date" name="event_date" readonly><br>
+
+            <label for="start_time">Start Time:</label>
+            <input type="time" id="start_time" name="start_time" readonly><br>
+
+            <label for="end_time">End Time:</label>
+            <input type="time" id="end_time" name="end_time" readonly><br>
+
+            <label for="registration_dead_line">Registration Dead Line:</label>
+            <input type="datetime-local" id="registration_dead_line" name="registration_dead_line" readonly><br>
+
+            <label for="banner_image">Banner Image:</label>
+            <img id="banner_image" src="" alt="Banner Image"><br>
+
+            <label for="attendee_name">Attendee Name:</label>
+            <input type="text" id="attendee_name" name="attendee_name"><br>
+
+            <label for="attendee_email">Attendee Email:</label>
+            <input type="email" id="attendee_email" name="attendee_email"><br>
+
+            <label for="attendeemobile">Attendee Mobile:</label>
+            <input type="tel" id="attendeemobile" name="attendeemobile"><br>
+
+            <label for="registration_date" >Registration Date:</label>
+            <input type="date" id="registration_date" name="registration_date" readonly><br>
+
+            <label for="registered_for">Registered For:</label>
+            <select id="registered_for" name="registered_for">
+                <option value="self">Self</option>
+                <option value="other">Other</option>
+            </select><br>
+
+            <label for="attendance_status">Attendance Status:</label>
+            <select id="attendance_status" name="attendance_status" disabled>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+            </select><br>
+
+            <label for="comments">Comments:</label>
+            <textarea id="comments" name="comments" rows="4"></textarea><br>
+
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            const params = new URLSearchParams(window.location.search);
+            const eventName = params.get('event_name');
+
+            if (eventName) {
+                try {
+                    const response = await fetch(`/api/method/lms.lms.utils.get_event?name=${encodeURIComponent(eventName)}`);
+                    const data = await response.json();
+
+                    if (data && Object.keys(data.message).length > 0) {
+                        // Fill the form with fetched data
+                        document.getElementById('event_name').value = data.message.event_name || '';
+                        document.getElementById('venue').value = data.message.venue || '';
+                        document.getElementById('description').value = data.message.description || '';
+                        document.getElementById('event_type').value = data.message.event_type || '';
+                        document.getElementById('organizer').value = data.message.organizer || '';
+                        document.getElementById('maximum_attendants').value = data.message.maximum_attendants || '';
+                        document.getElementById('event_date').value = data.message.event_date ? data.message.event_date.split('T')[0] : '';
+                        document.getElementById('start_time').value = data.message.start_time || '';
+                        document.getElementById('end_time').value = data.message.end_time || '';
+                        document.getElementById('registration_dead_line').value = data.message.registration_dead_line ? data.message.registration_dead_line.replace(' ', 'T') : '';
+                        document.getElementById('banner_image').src = data.message.banner_image || '';
+                        document.getElementById('registration_date').value = new Date().toISOString().split('T')[0]; // Set today's date
+
+                        // Set default attendance status to 'Pending'
+                        document.getElementById('attendance_status').value = 'Pending';
+                    } else {
+                        console.error('No data found for the event.');
+                    }
+                } catch (error) {
+                    console.error('Error fetching event details:', error);
+                }
+            } else {
+                console.error('Event name not found in URL parameters.');
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const registerForEvent = () => {
+                frappe.call({
+                    method: "lms.lms.utils.register_for_event",
+                    args: {
+                        attendee_name: document.getElementById('attendee_name').value,
+                        attendee_email: document.getElementById('attendee_email').value,
+                        attendeemobile: document.getElementById('attendeemobile').value,
+                        registration_date: document.getElementById('registration_date').value,
+                        registered_for: document.getElementById('registered_for').value,
+                        attendance_status: document.getElementById('attendance_status').value,
+                        comments: document.getElementById('comments').value,
+                        event_name: new URLSearchParams(window.location.search).get('event_name')
+                    },
+                    callback: function(response) {
+                        if (response.message.status === "success") {
+                            console.log("Registration successful.");
+                        } else {
+                            console.error("Error during registration:", response.message.message);
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error making the request:", error);
+                    }
+                });
+            };
+
+            registerForEvent(); // Call the function to register for the event
+        });
+
+        document.getElementById('registration-form').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent default form submission
+        console.log("Iam")
+        
+        const formData = {
+            attendee_name: document.getElementById('attendee_name').value,
+            attendee_email: document.getElementById('attendee_email').value,
+            attendeemobile: document.getElementById('attendeemobile').value,
+            registration_date: document.getElementById('registration_date').value,
+            registered_for: document.getElementById('registered_for').value,
+            attendance_status: document.getElementById('attendance_status').value,
+            comments: document.getElementById('comments').value,
+            event_name: new URLSearchParams(window.location.search).get('event_name')
+        };
+        csrfToken = frappe.csrf_token
+
+        try {
+            const response = await fetch('/api/method/lms.lms.utils.register_for_event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken // Add CSRF token here
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+            console.log(data)
+
+            if (data.status === 'success') {
+                alert('Registration successful!');
+                // Optionally redirect or reset form
+            } else {
+                alert('Registration failed: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form.');
+        }
+    });
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,5 +1,27 @@
+// Function to handle redirection
+function registerForItem(event_name) {
+
+    // Construct the registration URL dynamically
+    let registration_url = '/eventregistration.html?' + 
+                            'event_name=' + encodeURIComponent(event_name) ;
+
+    // Redirect to the registration page
+    window.location.href = registration_url;
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
     fetchEventsAndTraining();
+    
+    // Set up the event handler for the child table 'Registration'
+    frappe.ui.form.on('Registration', {
+        register: function(frm, cdt, cdn) {
+            var row = locals[cdt][cdn];
+
+            // Pass the event or item name from the child table to the function
+            registerForItem(row.event_name);  // Adjust 'event_name' field as needed
+        }
+    });
 
     async function fetchEventsAndTraining() {
         try {
@@ -27,20 +49,19 @@ document.addEventListener("DOMContentLoaded", function() {
     
         items.forEach(item => {
             const listItem = document.createElement('li');
-    
+            console.log(item.name)
             // Create list item content with a single line for details
             listItem.innerHTML = `
-                <a href="/event-details.html?id=${item.name}">
-                    <h3>${item.event_name || item.training_name}</h3>
-                    <div class="details">
-                        <p>Venue: ${item.venue}</p>
-                        <p>Date: ${item.event_date || item.training_date}</p>
-                        <p>Start Time: ${item.start_time}</p>
-                        <p>End Time: ${item.end_time}</p>
-                    </div>
-                    <button>Register</button>
-                </a>
-            `;
+                            <h3>${item.event_name || item.training_name}</h3>
+                            <div class="details">
+                                <p>Venue: ${item.venue}</p>
+                                <p>Date: ${item.event_date || item.training_date}</p>
+                                <p>Start Time: ${item.start_time}</p>
+                                <p>End Time: ${item.end_time}</p>
+                            </div>
+                            <button onclick="registerForItem('${item.name}')">Register</button>
+                        `;
+
     
             // Append to the correct list
             if (item.event_type === 'Event') {
@@ -68,9 +89,5 @@ document.addEventListener("DOMContentLoaded", function() {
         trainingList.innerHTML = '<p>Error fetching training sessions.</p>';
     }
     
-    function registerForItem(itemName) {
-        // Implement registration logic here
-        alert(`Registering for ${itemName}`);
-    }
     
 });
