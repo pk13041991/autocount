@@ -39,21 +39,11 @@
     </section>
 
     <!-- Events Section -->
+    <!-- Events Section -->
     <section class="events">
         <h2>Upcoming Events</h2>
-
-        <div class="event-cards">
-            <div class="card">
-                <h3>Soon We are Coming</h3>
-                <p>Date: January 15, 2025</p>
-            </div>
-            <!-- <div class="card">
-                <h3>Event Title 2</h3>
-                <p>Date: February 20, 2025</p>
-                <p>Location: Conference Center</p>
-                <p>Details about the event...</p>
-            </div> -->
-            <!-- Add more event cards as needed -->
+        <div class="event-cards" id="event-cards">
+            <!-- Dynamic cards will be inserted here -->
         </div>
     </section>
 
@@ -104,51 +94,116 @@
     <script src="js/includes.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetchCourses("");
+        // Fetch courses and events when the document is loaded
+        fetchCourses("");
+        fetchEvents();
 
-            // Function to fetch courses
-            function fetchCourses(searchText) {
-                fetch(`/api/method/lms.lms.utils.get_courses?text=${searchText}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        updateCourseSection(data.message.new);
-                    })
-                    .catch(error => console.error('Error fetching courses:', error));
-            }
-
-            // Function to update the course section
-            function updateCourseSection(courses) {
-                const courseSection = document.querySelector(".course-options");
-                courseSection.innerHTML = ""; // Clear existing courses
-                
-                courses.slice(0, 6).forEach(course => {
-                    const courseDiv = document.createElement("div");
-                    courseDiv.classList.add("course");
-                    courseDiv.innerHTML = `
-                        <h3>${course.title}</h3>
-                        <p>${course.description || "No description available."}</p>
-                        <a href="/course/${course.name}">Learn More</a>
-                    `;
-                    courseSection.appendChild(courseDiv);
-                });
-
-                // Add "More Options" link if there are more than 6 courses
-                if (courses.length > 6) {
-                    const moreOptionsDiv = document.createElement("div");
-                    moreOptionsDiv.classList.add("course");
-                    moreOptionsDiv.innerHTML = `
-                        <a href="/all-courses?search=${searchText}">More Options</a>
-                    `;
-                    courseSection.appendChild(moreOptionsDiv);
+        // Function to fetch courses
+        async function fetchCourses(searchText) {
+            try {
+                const response = await fetch(`/api/method/lms.lms.utils.get_courses?text=${searchText}`);
+                const data = await response.json();
+                if (data.message && data.message.new) {
+                    updateCourseSection(data.message.new);
+                } else {
+                    console.error('Invalid data format for courses');
                 }
+            } catch (error) {
+                console.error('Error fetching courses:', error);
             }
+        }
 
-            // Example usage: Trigger fetch on a search input (optional)
-            document.getElementById('search-input').addEventListener('input', function() {
-                const searchText = this.value;
-                fetchCourses(searchText);
+        // Function to fetch events
+        async function fetchEvents() {
+            try {
+                const response = await fetch('/api/method/lms.lms.utils.get_events');
+                const data = await response.json();
+                if (data.message && Array.isArray(data.message)) {
+                    displayEvents(data.message);
+                } else {
+                    console.error('Invalid data format for events');
+                    displayEvents([]);
+                }
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                displayEvents([]);
+            }
+        }
+
+        // Function to create an event card
+        function createEventCard(event) {
+            return `
+                <div class="card">
+                    <h3>${event.event_name}</h3>
+                    <p>Date: ${new Date(event.event_date).toLocaleDateString()}</p>
+                    <p>Location: ${event.venue || 'Not specified'}</p>
+                    <p>${event.description || 'No details available'}</p>
+                    <button onclick="registerForEvent('${event.name}')">Register</button>
+                </div>
+            `;
+        }
+
+        // Function to display events
+        function displayEvents(events) {
+            const eventCards = document.getElementById('event-cards');
+            if (!eventCards) {
+                console.error('Element with id "event-cards" not found.');
+                return;
+            }
+            
+            if (events.length === 0) {
+                eventCards.innerHTML = '<p>No upcoming events found.</p>';
+            } else {
+                eventCards.innerHTML = events.map(createEventCard).join('');
+            }
+        }
+
+        // Function to handle event registration
+        function registerForEvent(eventId) {
+            // Handle event registration logic here
+            alert(`Registering for event ${eventId}`);
+        }
+
+        // Function to update the course section
+        function updateCourseSection(courses) {
+            const courseSection = document.querySelector(".course-options");
+            if (!courseSection) {
+                console.error('Element with class "course-options" not found.');
+                return;
+            }
+            
+            courseSection.innerHTML = ""; // Clear existing courses
+
+            courses.slice(0, 6).forEach(course => {
+                const courseDiv = document.createElement("div");
+                courseDiv.classList.add("course");
+                courseDiv.innerHTML = `
+                    <h3>${course.title}</h3>
+                    <img src="${course.image}" style="width: 100%; max-width: 200px; height: auto; display: block; margin: 0 auto;" alt="${course.title}">
+                    <p>${course.description || "No description available."}</p>
+                    <a href="/course/${course.name}">Learn More</a>
+                `;
+                courseSection.appendChild(courseDiv);
             });
+
+            // Add "More Options" link if there are more than 6 courses
+            if (courses.length > 6) {
+                const moreOptionsDiv = document.createElement("div");
+                moreOptionsDiv.classList.add("course");
+                moreOptionsDiv.innerHTML = `
+                    <a href="/courses">...More Options</a>
+                `;
+                courseSection.appendChild(moreOptionsDiv);
+            }
+        }
+
+        // Example usage: Trigger fetch on a search input (optional)
+        document.getElementById('search-input')?.addEventListener('input', function() {
+            const searchText = this.value;
+            fetchCourses(searchText);
         });
+    });
+
     </script>
 </body>
 </html>
