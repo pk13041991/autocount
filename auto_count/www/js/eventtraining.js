@@ -1,5 +1,11 @@
 // Function to handle redirection
 function registerForItem(event_name) {
+    console.log(frappe.session["user"])
+    if (frappe.session["user"] === "Guest" || !frappe.session["user"]) {
+        // Redirect to login page
+        window.location.href = '/login'; // Adjust this path if needed
+        return;
+    }
 
     // Construct the registration URL dynamically
     let registration_url = '/eventregistration.html?' + 
@@ -11,6 +17,13 @@ function registerForItem(event_name) {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Check if the user is a guest
+    console.log(frappe.session["user"])
+    if (frappe.session["user"] === "Guest") {
+        // Redirect to login page
+        window.location.href = '/login'; // Adjust this path if needed
+        return;  // Stop further execution
+    }
     fetchEventsAndTraining();
     
     // Set up the event handler for the child table 'Registration'
@@ -47,35 +60,47 @@ document.addEventListener("DOMContentLoaded", function() {
         eventsList.innerHTML = '';
         trainingList.innerHTML = '';
     
+        // Create card containers
+        const eventsContainer = document.createElement('div');
+        eventsContainer.classList.add('card-container');
+        const trainingContainer = document.createElement('div');
+        trainingContainer.classList.add('card-container');
+        
         items.forEach(item => {
-            const listItem = document.createElement('li');
-            console.log(item.name)
-            // Create list item content with a single line for details
-            listItem.innerHTML = `
-                            <h3>${item.event_name || item.training_name}</h3>
-                            <div class="details">
-                                <p>Venue: ${item.venue}</p>
-                                <p>Date: ${item.event_date || item.training_date}</p>
-                                <p>Start Time: ${item.start_time}</p>
-                                <p>End Time: ${item.end_time}</p>
-                            </div>
-                            <button onclick="registerForItem('${item.name}')">Register</button>
-                        `;
-
-    
-            // Append to the correct list
+            const card = document.createElement('div');
+            card.classList.add('card');
+            console.log(item.name);
+            
+            // Create card content
+            card.innerHTML = `
+                <h3>${item.event_name || item.training_name}</h3>
+                <div class="details">
+                    <p>Venue: ${item.venue}</p>
+                    <p>Date: ${item.event_date || item.training_date}</p>
+                    <p>Start Time: ${item.start_time}</p>
+                    <p>End Time: ${item.end_time}</p>
+                </div>
+                <button onclick="registerForItem('${item.name}')">Register</button>
+            `;
+        
+            // Append to the correct container
             if (item.event_type === 'Event') {
-                eventsList.appendChild(listItem);
+                eventsContainer.appendChild(card);
             } else if (item.event_type === 'Training') {
-                trainingList.appendChild(listItem);
+                trainingContainer.appendChild(card);
             }
         });
     
+        // Append card containers to the DOM
+        eventsList.appendChild(eventsContainer);
+        trainingList.appendChild(trainingContainer);
+    
         if (!items.length) {
-            eventsList.innerHTML = '<li>No upcoming events found.</li>';
-            trainingList.innerHTML = '<li>No upcoming training found.</li>';
+            eventsList.innerHTML = '<p>No upcoming events found.</p>';
+            trainingList.innerHTML = '<p>No upcoming training sessions found.</p>';
         }
     }
+    
     
     // Call the function on page load
     document.addEventListener('DOMContentLoaded', fetchEventsAndTraining);

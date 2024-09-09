@@ -7,6 +7,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events & Training - Education Platform</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Card container styles */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 15px;
+    background-color: #fff;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Styling the card content */
+.card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.card .details {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.card button {
+    padding: 10px 20px;
+    background-color: #28a745; /* Green color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #218838;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* For responsive layout */
+@media (max-width: 768px) {
+    .card {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+}
+
+    </style>
 </head>
 <body>
     <!-- Include Header -->
@@ -15,16 +73,23 @@
     <!-- Events Section -->
     <section id="events">
         <h2>Events</h2>
-        <p>We are coming soon</p>
-        <ul id="events-list"></ul> <!-- Container for events list -->
+        <div id="events-list" class="events-section">
+            <!-- Event cards will be dynamically injected here -->
+        </div>
     </section>
 
     <!-- Training Section -->
     <section id="training">
         <h2>Training</h2>
-        <p>We are coming soon</p>
-        <ul id="training-list"></ul> <!-- Container for training list -->
+        <div id="training-list" class="training-section">
+            <!-- Training cards will be dynamically injected here -->
+        </div>
     </section>
+
+    
+    
+    
+    
 
     <!-- Include Footer -->
     <div include-html="includes/footer.html"></div>

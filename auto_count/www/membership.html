@@ -96,7 +96,7 @@
             return `
                 <li id="${plan.plan_name.toLowerCase()}-${durationText.replace(" ", "-").toLowerCase()}">
                     <label>
-                        <input type="checkbox" data-cost="${costText}" name="${plan.plan_name}" value="${durationText}">
+                        <input type="radio" data-cost="${costText}" name="${plan.plan_name}" value="${durationText}">
                         ${durationText} - ${costText}
                     </label>
                 </li>

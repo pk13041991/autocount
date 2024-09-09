@@ -95,8 +95,17 @@
     <script>
         // Function to handle event registration
         function registerForEvent(eventId) {
-            // Handle event registration logic here
-            alert(`Registering for event ${eventId}`);
+            // Construct the registration URL dynamically
+            if (frappe.session["user"] === "Guest" || !frappe.session["user"]) {
+                // Redirect to login page
+                window.location.href = '/login'; // Adjust this path if needed
+                return;
+            }
+            let registration_url = '/eventregistration.html?' + 
+                                    'event_name=' + encodeURIComponent(eventId) ;
+
+            // Redirect to the registration page
+            window.location.href = registration_url;
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -144,7 +153,7 @@
                     <p>Date: ${new Date(event.event_date).toLocaleDateString()}</p>
                     <p>Location: ${event.venue || 'Not specified'}</p>
                     <p>Mode: ${event.event_type || 'No details available'}</p>
-                    <button onclick="registerForEvent('${event.event_name}')">Register</button>
+                    <button onclick="registerForEvent('${event.name}')">Register</button>
                 </div>
             `;
         }

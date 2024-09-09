@@ -36,13 +36,41 @@ document.addEventListener('DOMContentLoaded', () => {
 let slideIndex = 0;
 showSlides();
 
+
+// function showSlides() {
+//     let slides = document.getElementsByClassName("mySlides");
+//     for (let i = 0; i < slides.length; i++) {
+//         slides[i].style.display = "none";  
+//     }
+//     slideIndex++;
+//     if (slideIndex > slides.length) { slideIndex = 1 }    
+//     slides[slideIndex-1].style.display = "block";  
+//     setTimeout(showSlides, 3000); // Change image every 3 seconds
+// }
+// Array of animation classes
+
+
+function showSlide(index) {
+    let slides = document.getElementsByClassName("mySlides");
+    const animations = ['zoom', 'slide'];
+    // Hide all slides and remove animation classes
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+        slides[i].classList.remove(...animations);
+    }
+
+    // Show the current slide
+    slides[index].style.display = "block";
+
+    // Assign a random animation class
+    const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+    slides[index].classList.add(randomAnimation);
+}
+
+// Automatically change slides every 3 seconds
 function showSlides() {
     let slides = document.getElementsByClassName("mySlides");
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";  
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) { slideIndex = 1 }    
-    slides[slideIndex-1].style.display = "block";  
-    setTimeout(showSlides, 3000); // Change image every 3 seconds
+    showSlide(slideIndex);
+    slideIndex = (slideIndex + 1) % slides.length;
+    setTimeout(showSlides, 3000);
 }
